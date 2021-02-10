@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:screenshot/screenshot.dart';
+import 'dart:typed_data';
 
 void main() {
   runApp(MyApp());
@@ -12,15 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(),
@@ -40,6 +33,10 @@ class _MyHomePageState extends State<MyHomePage> {
   var _controller = TextEditingController();
   var _controller1 = TextEditingController();
   final _formkey = GlobalKey<FormState>();
+
+
+  Uint8List _imageFile;
+  ScreenshotController screenshotController = ScreenshotController();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
                         }
                         , child: Text('Submit')),
-                        Text(address),
 
 
                       ],
@@ -101,11 +97,28 @@ class _MyHomePageState extends State<MyHomePage> {
               Align(
                   alignment: Alignment.topRight,
                   child: Text("About Us")),
-              QrImage(
-                data: address,
-                version: QrVersions.auto,
-                size: 200.0,
+              Screenshot(
+                controller: screenshotController,
+                child: QrImage(
+                  data: address,
+                  version: QrVersions.auto,
+                  size: 200.0,
+                ),
               ),
+              TextButton(onPressed: () {
+                _imageFile = null;
+                screenshotController
+                    .capture()
+                    .then((Uint8List image) async {
+                  setState(() {
+                    _imageFile = image;
+                  });
+
+                  print("File Saved to Gallery");
+                }).catchError((onError) {
+                  print(onError);
+                });
+              }, child: Text("Save Image"),),
             ],
           ),
 
