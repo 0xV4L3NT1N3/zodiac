@@ -15,23 +15,33 @@ class MyApp extends StatelessWidget {
       title: 'Zodiac',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'Rubik',
-        textTheme: TextTheme(
-          headline1: TextStyle(
-              fontSize: 62.0,
-              fontWeight: FontWeight.w900,
+          fontFamily: 'Rubik',
+          primaryColor: HexColor("#cc9902"),
+          textTheme: TextTheme(
+            headline1: TextStyle(
+                fontSize: 62.0,
+                fontWeight: FontWeight.w900,
+                color: HexColor("#fdfdfd"),
+                fontFamily: 'Rubik-ExtraBold'),
+            headline2: TextStyle(
+                fontSize: 62.0,
+                fontWeight: FontWeight.bold,
+                color: HexColor("#cc9902"),
+                fontFamily: 'Rubik-ExtraBold'),
+            bodyText1: TextStyle(
               color: HexColor("#fdfdfd"),
-              fontFamily: 'Rubik-ExtraBold'),
-          headline2: TextStyle(
-              fontSize: 62.0,
               fontWeight: FontWeight.bold,
-              color: HexColor("#cc9902"),
-              fontFamily: 'Rubik-ExtraBold'),
-          bodyText1: TextStyle(
-            fontSize: 14.0,
+              fontSize: 20.0,
+            ),
           ),
-        ),
-      ),
+          buttonTheme: ButtonThemeData(
+            buttonColor: HexColor("#cc9902"),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(30),
+              ),
+            ),
+          )),
       home: MyHomePage(),
     );
   }
@@ -108,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: QrImage(
                                     data: address,
                                     version: QrVersions.auto,
-                                    size: 50.0,
+                                    size: 150.0,
                                   ),
                                 ),
                               ),
@@ -123,14 +133,66 @@ class _MyHomePageState extends State<MyHomePage> {
 
           // Parameters card
           Padding(
-            padding: EdgeInsets.only(top: 150, left: 250),
+            padding: EdgeInsets.only(top: 180, left: 150),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Container(
-                height: 200,
-                width: 400,
+                height: 300,
+                width: 500,
                 child: Card(
                   elevation: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.all(35.0),
+                    child: Column(
+                      children: [
+                        // Address field
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            icon: Icon(Icons.home_rounded),
+                            labelText: 'Wallet address',
+                          ),
+                          controller: _controller,
+                          onChanged: (text) {
+                            setState(() {
+                              address = text;
+                            });
+                          },
+                        ),
+
+                        SizedBox(height: 25),
+
+                        // Message field
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            icon: Icon(Icons.edit_rounded),
+                            labelText: 'Optional message',
+                            fillColor: Colors.grey[800],
+                          ),
+                          controller: _controller,
+                          onChanged: (text) {
+                            setState(() {
+                              address = text;
+                            });
+                          },
+                        ),
+
+                        Spacer(),
+
+                        // Save image button
+                        Container(
+                          height: 40,
+                          width: 200,
+                          child: RaisedButton(
+                              onPressed: () {},
+                              child: Text('SAVE IMAGE',
+                                  style:
+                                      Theme.of(context).textTheme.bodyText1)),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
