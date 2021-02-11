@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   qr_flutter: ^3.1.0
   screenshot: ^0.3.0
+  hexcolor: ^1.0.6
 
 dev_dependencies:
   flutter_test:
@@ -65,11 +66,12 @@ flutter:
   fonts:
     - family: Rubik
       fonts:
-        - asset: fonts/Rubik-VariableFont_wght.ttf
-    - family: Aldrich
-      fonts:
-        - asset: fonts/Aldrich-Regular.ttf
+        - asset: fonts/Rubik-Black.ttf
+        - asset: fonts/Rubik-Regular.ttf
 
+    - family: Rubik-ExtraBold
+      fonts:
+        - asset: fonts/Rubik-ExtraBold.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

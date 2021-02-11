@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:typed_data';
+import 'package:hexcolor/hexcolor.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,9 +12,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Zodiac',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        fontFamily: 'Rubik',
+        textTheme: TextTheme(
+          headline1: TextStyle(
+              fontSize: 62.0,
+              fontWeight: FontWeight.w900,
+              color: HexColor("#fdfdfd"),
+              fontFamily: 'Rubik-ExtraBold'),
+          headline2: TextStyle(
+              fontSize: 62.0,
+              fontWeight: FontWeight.bold,
+              color: HexColor("#cc9902"),
+              fontFamily: 'Rubik-ExtraBold'),
+          bodyText1: TextStyle(
+            fontSize: 14.0,
+          ),
+        ),
       ),
       home: MyHomePage(),
     );
@@ -38,79 +55,85 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
+      body: Stack(
         children: [
-          Column(children: [
-            Text("Logo"),
-            Text("Logo"),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-              child: Container(
-                height: 200,
-                width: 150,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.red,
+          Row(
+            children: [
+              // Left side of the box
+              Expanded(
+                flex: 3,
+                child: Container(
+                  color: HexColor("#cc9902"),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(height: 100),
+                      Text('Send red ',
+                          style: Theme.of(context).textTheme.headline1),
+                      Text('The mod',
+                          style: Theme.of(context).textTheme.headline1),
+                    ],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _controller,
-                      onChanged: (text) {
-                        setState(() {
-                          address = text;
-                        });
-                      },
-                    ),
-                    TextFormField(
-                      controller: _controller,
-                      onChanged: (text) {
-                        setState(() {
-                          address = text;
-                        });
-                      },
-                    ),
-                    TextButton(onPressed: () {}, child: Text('Submit')),
-                  ],
+              ),
+
+              // Right side of the box
+              Expanded(
+                flex: 7,
+                child: Container(
+                  color: HexColor("#fdfdfd"),
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 100),
+                          Text('packets',
+                              style: Theme.of(context).textTheme.headline2),
+                          Text('ern way.',
+                              style: Theme.of(context).textTheme.headline2),
+                        ],
+                      ),
+
+                      // QR Code image
+                      Center(
+                        child: Container(
+                            height: 600,
+                            width: 400,
+                            child: Card(
+                              elevation: 10,
+                              child: Screenshot(
+                                controller: screenshotController,
+                                child: Center(
+                                  child: QrImage(
+                                    data: address,
+                                    version: QrVersions.auto,
+                                    size: 50.0,
+                                  ),
+                                ),
+                              ),
+                            )),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // Parameters card
+          Padding(
+            padding: EdgeInsets.only(top: 150, left: 250),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                height: 200,
+                width: 400,
+                child: Card(
+                  elevation: 10,
                 ),
               ),
             ),
-          ]),
-          Spacer(),
-          Column(
-            children: [
-              Align(alignment: Alignment.topRight, child: Text("About Us")),
-              Screenshot(
-                controller: screenshotController,
-                child: QrImage(
-                  data: address,
-                  version: QrVersions.auto,
-                  size: 200.0,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  _imageFile = null;
-                  screenshotController.capture().then((Uint8List image) async {
-                    setState(() {
-                      _imageFile = image;
-                    });
-
-                    print("File Saved to Gallery");
-                  }).catchError((onError) {
-                    print(onError);
-                  });
-                },
-                child: Text("Save Image"),
-              ),
-              TextButton(
-                  child: Text('Download Image'),
-                  onPressed: () {
-                    var _image = MemoryImage(_imageFile);
-                    // TODO implement JavaScript to download image
-                  })
-            ],
           ),
         ],
       ),
