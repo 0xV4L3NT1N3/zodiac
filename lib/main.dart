@@ -5,10 +5,14 @@ import 'dart:typed_data';
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:convert';
 import 'dart:html' as html;
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:zodiac/suggestions.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -55,22 +59,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String temp = '';
-  String address = '123456789';
+
   var _controller = TextEditingController();
   var _controller1 = TextEditingController();
-  final _formkey = GlobalKey<FormState>();
+  var _controller2 = TextEditingController();
+
+  String temp = '';
+  String address = '123456789';
+  String message = '';
+  String cointype = '';
+  String logo = '';
 
   Uint8List _imageFile;
   ScreenshotController screenshotController = ScreenshotController();
+  var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      endDrawer:  Container(
+        width: 600,
+        child: Drawer(
+          child: new ListView(),
+        ),
+      ),
+
       body: Stack(
         children: [
           Row(
             children: [
+
               // Left side of the box
               Expanded(
                 flex: 3,
@@ -116,12 +135,22 @@ class _MyHomePageState extends State<MyHomePage> {
                               width: 400,
                               child: Card(
                                 elevation: 10,
-                                child: Center(
-                                  child: QrImage(
-                                    data: address,
-                                    version: QrVersions.auto,
-                                    size: 150.0,
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Text(message),
+                                    SizedBox(height: 60,),
+                                    Center(
+                                      child: QrImage(
+                                        data: address,
+                                        version: QrVersions.auto,
+                                        size: 150.0,
+                                        embeddedImage: AssetImage(logo),
+                                        embeddedImageStyle: QrEmbeddedImageStyle(
+                                          size: Size(80, 80),
+                                      ),
+                                    ),
+                                    ),
+                                  ],
                                 ),
                               )),
                         ),
@@ -130,6 +159,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
+
+              ElevatedButton(onPressed: (){
+                setState(() {
+                  scaffoldKey.currentState.openEndDrawer();
+                });
+              }, child: Text('About Us')),
+
+
             ],
           ),
 
@@ -139,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Container(
-                height: 300,
+                height: 350,
                 width: 500,
                 child: Card(
                   elevation: 10,
@@ -172,13 +209,127 @@ class _MyHomePageState extends State<MyHomePage> {
                             labelText: 'Optional message',
                             fillColor: Colors.grey[800],
                           ),
-                          controller: _controller,
+                          controller: _controller1,
                           onChanged: (text) {
                             setState(() {
-                              address = text;
+                              message = text;
                             });
                           },
                         ),
+                        SizedBox(height: 25),
+
+                        TypeAheadField(
+                            textFieldConfiguration:
+                            TextFieldConfiguration(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                icon: Icon(Icons.monetization_on),
+                                labelText: 'Coin Type',
+                                fillColor: Colors.grey[800],
+                              ),
+                              onChanged: (text) {
+                                cointype = text;
+                              },
+                              controller: _controller2,
+                            ),
+                            suggestionsCallback: (pattern) async {
+                              return Stations.getSuggestions(pattern);
+                            },
+                            transitionBuilder:
+                                (context, suggestionsBox, controller) {
+                              return suggestionsBox;
+                            },
+                            itemBuilder: (context, suggestion) {
+                              return ListTile(
+                                title: Text(suggestion),
+                              );
+                            },
+                            onSuggestionSelected: (suggestion) {
+                              cointype = suggestion;
+                              _controller2.text = suggestion;
+                              switch (cointype){
+                                case 'BitCoin' :{
+                                  setState(() {
+                                    logo = 'assets/btc.png';
+                                  });
+                                }
+                                break;
+                                case 'Ethereum' :{
+                                  setState(() {
+                                    logo = 'assets/ethereum.png';
+                                  });
+                                }
+
+                                break;
+                                case 'Tether' :{
+                                  setState(() {
+                                    logo = 'assets/tether.png';
+                                  });
+                                }
+
+                                break;
+                                case 'Cardano' :{
+                                  setState(() {
+                                    logo = 'assets/cardano.png';
+                                  });
+                                }
+
+                                break;
+                                case 'XRP' :{
+                                  setState(() {
+                                    logo = 'assets/xrp.png';
+                                  });
+                                }
+
+                                break;
+                                case 'Polkadot' :{
+                                  setState(() {
+                                    logo = 'assets/polkadot.png';
+                                  });
+                                }
+
+                                break;
+                                case 'BinanceCoin' :{
+                                  setState(() {
+                                    logo = 'assets/binance.png';
+                                  });
+                                }
+
+                                break;
+                                case 'Litecoin' :{
+                                  setState(() {
+                                    logo = 'assets/litecoin.png';
+                                  });
+                                }
+
+                                break;
+                                case 'Stellar' :{
+                                  setState(() {
+                                    logo = 'assets/stellar.png';
+                                  });
+                                }
+
+                                break;
+                                case 'ChainLink' :{
+                                  setState(() {
+                                    logo = 'assets/chainlink.png';
+                                  });
+                                }
+
+                                break;
+                                case 'DogeCoin' :{
+                                  setState(() {
+                                    logo = 'assets/doge.jpg';
+                                  });
+                                }
+                                break;
+                                default :{
+                                  setState(() {
+                                    logo = 'assets/coin.png';
+                                  });
+                                }
+                              }
+                            }),
 
                         Spacer(),
 
