@@ -3,6 +3,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:typed_data';
 import 'package:hexcolor/hexcolor.dart';
+import 'dart:convert';
+import 'dart:html' as html;
 
 void main() {
   runApp(MyApp());
@@ -107,13 +109,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       // QR Code image
                       Center(
-                        child: Container(
-                            height: 600,
-                            width: 400,
-                            child: Card(
-                              elevation: 10,
-                              child: Screenshot(
-                                controller: screenshotController,
+                        child: Screenshot(
+                          controller: screenshotController,
+                          child: Container(
+                              height: 600,
+                              width: 400,
+                              child: Card(
+                                elevation: 10,
                                 child: Center(
                                   child: QrImage(
                                     data: address,
@@ -121,8 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     size: 150.0,
                                   ),
                                 ),
-                              ),
-                            )),
+                              )),
+                        ),
                       )
                     ],
                   ),
@@ -185,7 +187,39 @@ class _MyHomePageState extends State<MyHomePage> {
                           height: 40,
                           width: 200,
                           child: RaisedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                screenshotController
+                                    .capture()
+                                    .then((Uint8List image) async {
+                                  print("Capture Done");
+                                  setState(() {
+                                    _imageFile = image;
+                                  });
+
+                                  final text = 'this is the text file';
+
+                                  // prepare
+                                  final bytes = _imageFile;
+                                  final blob = html.Blob([bytes]);
+                                  final url =
+                                      html.Url.createObjectUrlFromBlob(blob);
+                                  final anchor = html.document
+                                      .createElement('a') as html.AnchorElement
+                                    ..href = url
+                                    ..style.display = 'none'
+                                    ..download = 'some_name.png';
+                                  html.document.body.children.add(anchor);
+
+                                  // download
+                                  anchor.click();
+
+                                  // cleanup
+                                  html.document.body.children.remove(anchor);
+                                  html.Url.revokeObjectUrl(url);
+                                }).catchError((onError) {
+                                  print(onError);
+                                });
+                              },
                               child: Text('SAVE IMAGE',
                                   style:
                                       Theme.of(context).textTheme.bodyText1)),
