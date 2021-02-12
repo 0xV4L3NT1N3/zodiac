@@ -32,6 +32,7 @@ dependencies:
   screenshot: ^0.3.0
   hexcolor: ^1.0.6
   flutter_typeahead: ^1.9.1
+  carousel_slider: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,7 @@
 
 class Stations {
   static final List<String> coins = [
-    'BitCoin' , 'Ethereum', 'Tether', 'Cardano' ,'XRP' ,'Polkadot','BinanceCoin' ,'Litecoin', 'Stellar' , 'ChainLink' , 'DogeCoin'
+    'Bitcoin' , 'Ethereum', 'Tether', 'Cardano' ,'XRP' ,'Polkadot','BinanceCoin' ,'Litecoin', 'Stellar' , 'ChainLink' , 'DogeCoin'
   ];
 
 
