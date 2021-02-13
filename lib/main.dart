@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:zodiac/suggestions.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
             headline3: TextStyle(
                 color: HexColor("#fdfdfd"),
                 fontSize: 18.0,
-                fontWeight: FontWeight.w500),
+                fontWeight: FontWeight.bold),
             headline4: TextStyle(
                 fontSize: 42.0,
                 fontWeight: FontWeight.w500,
@@ -92,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String temp = '';
   String address = '123456789';
   String message = '';
-  String cointype = 'cointype';
+  String cointype = 'Bitcoin';
   String logo = '';
 
   Uint8List _imageFile;
@@ -154,9 +156,88 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Drawer(
             child: new Column(
               children: [
+                SizedBox(height: 20),
                 Text('About', style: Theme.of(context).textTheme.headline4),
-                Text('This is a fun project and this is some test text',
-                    style: Theme.of(context).textTheme.headline5)
+                SizedBox(height: 20),
+                Container(
+                  width: 500,
+                  child: Column(
+                    children: [
+                      Text(
+                          'Zodiac is a festive cryptocurrency wallet address generator. Forget dollars and ringgit, get your red packets sent in the Top 10 cryptocurrencies of today. Grandma can now send Dogecoins woohoo !',
+                          style: Theme.of(context).textTheme.headline5),
+                      SizedBox(height: 20),
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'Disclaimer : ',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[800],
+                                    fontFamily: 'Rubik')),
+                            TextSpan(
+                                text:
+                                    'Please double check the address whenever you are about to send funds to wallets generated with this tool. '
+                                    'To any address in fact, blockchain transactions are irreversible !',
+                                style: Theme.of(context).textTheme.headline5),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                                text:
+                                    'All image credits to their respective creators on ',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.grey[800],
+                                    fontFamily: 'Rubik')),
+                            TextSpan(
+                              text: 'Freepik.com',
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.grey[800],
+                                  decoration: TextDecoration.underline,
+                                  fontFamily: 'Rubik'),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  launch('https://www.freepik.com/');
+                                },
+                            ),
+                            TextSpan(
+                                text: ' Source code available on ',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.grey[800],
+                                    fontFamily: 'Rubik')),
+                            TextSpan(
+                              text: 'Github.',
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.grey[800],
+                                  decoration: TextDecoration.underline,
+                                  fontFamily: 'Rubik'),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  launch('https://github.com/V4L3NT1N3/zodiac');
+                                },
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Text('Much donate. Such thanks. Very halp.',
+                          style: Theme.of(context).textTheme.headline5),
+                      SizedBox(height: 20),
+                      Image.asset('assets/donatedoge.png',
+                          height: 200, width: 200),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -205,86 +286,108 @@ class _MyHomePageState extends State<MyHomePage> {
                         Center(
                           child: Screenshot(
                             controller: screenshotController,
-                            child: Container(
+                            child: Card(
+                              elevation: 10,
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: Container(
                                 height: 600,
-                                width: 400,
-                                child: Card(
-                                  elevation: 10,
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  child: Stack(
-                                    children: [
-                                      SizedBox(
-                                        height: 60,
-                                      ),
-                                      Container(
-                                        height: 600,
-                                        width: 400,
-                                        child: CarouselSlider(
-                                          options: CarouselOptions(
-                                            viewportFraction: 1,
-                                          ),
-                                          items: imgList
-                                              .map((item) => Container(
-                                                    child: Center(
-                                                        child: Image.network(
-                                                            item,
-                                                            fit: BoxFit.cover,
-                                                            width: 1300)),
-                                                  ))
-                                              .toList(),
+                                width: 370,
+                                child: Stack(
+                                  children: [
+                                    SizedBox(
+                                      height: 60,
+                                    ),
+                                    Container(
+                                      height: 600,
+                                      width: 400,
+                                      child: CarouselSlider(
+                                        options: CarouselOptions(
+                                          viewportFraction: 1,
                                         ),
+                                        items: imgList
+                                            .map((item) => Container(
+                                                  child: Center(
+                                                      child: Image.network(item,
+                                                          fit: BoxFit.cover,
+                                                          width: 1300)),
+                                                ))
+                                            .toList(),
                                       ),
-                                      Center(
-                                        child: Container(
-                                          color: HexColor("#fdfdfd"),
-                                          height: 160,
-                                          width: 160,
-                                          child: QrImage(
-                                            data: address,
-                                            version: QrVersions.auto,
-                                            size: 150.0,
-                                            embeddedImage: AssetImage(logo),
-                                            embeddedImageStyle:
-                                                QrEmbeddedImageStyle(
-                                              size: Size(30, 30),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                    ),
 
-                                      // Optional message
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 250.0),
-                                        child: Center(
-                                          child: Container(
-                                            width: 300,
-                                            child: Text(message,
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline3),
+                                    // Optional message
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 250.0),
+                                      child: Center(
+                                        child: Container(
+                                          width: 300,
+                                          child: Text(message,
+                                              textAlign: TextAlign.center,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline3),
+                                        ),
+                                      ),
+                                    ),
+
+                                    // QR wallet address
+                                    Center(
+                                      child: Container(
+                                        color: HexColor("#fdfdfd"),
+                                        height: 160,
+                                        width: 160,
+                                        child: QrImage(
+                                          data: address,
+                                          version: QrVersions.auto,
+                                          size: 150.0,
+                                          embeddedImage: AssetImage(logo),
+                                          embeddedImageStyle:
+                                              QrEmbeddedImageStyle(
+                                            size: Size(30, 30),
                                           ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 400.0),
-                                        child: Center(
-                                          child: Container(
-                                            width: 300,
-                                            child: Text(
-                                                'Send only ${cointype} to this address',
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline6),
-                                          ),
+                                    ),
+
+                                    // Wallet address chip
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(top: 230.0),
+                                      child: Center(
+                                          child: Chip(
+                                              backgroundColor:
+                                                  HexColor('#fdfdfd'),
+                                              label: Text(
+                                                'Wallet Address',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 10.0,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ))),
+                                    ),
+
+                                    // Coin type reminder , I'll press F if you wrongly sent coins
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(top: 320.0),
+                                      child: Center(
+                                        child: Container(
+                                          width: 300,
+                                          child: Text(
+                                              'Send only ${cointype} to this address',
+                                              textAlign: TextAlign.center,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline6),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                         )
                       ],
