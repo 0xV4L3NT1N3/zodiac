@@ -144,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
 
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
@@ -226,7 +226,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           items: imgList
                                               .map((item) => Container(
                                                     child: Center(
-                                                        child: Image.network(item,
+                                                        child: Image.network(
+                                                            item,
                                                             fit: BoxFit.cover,
                                                             width: 1300)),
                                                   ))
@@ -268,11 +269,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                       Padding(
                                         padding:
-                                        const EdgeInsets.only(top: 400.0),
+                                            const EdgeInsets.only(top: 400.0),
                                         child: Center(
                                           child: Container(
                                             width: 300,
-                                            child: Text('Send only ${cointype} to this address',
+                                            child: Text(
+                                                'Send only ${cointype} to this address',
                                                 textAlign: TextAlign.center,
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -512,10 +514,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     final url =
                                         html.Url.createObjectUrlFromBlob(blob);
                                     final anchor = html.document
-                                        .createElement('a') as html.AnchorElement
+                                            .createElement('a')
+                                        as html.AnchorElement
                                       ..href = url
                                       ..style.display = 'none'
-                                      ..download = 'some_name.png';
+                                      ..download = 'red-packet.png';
                                     html.document.body.children.add(anchor);
 
                                     // Trigger download
