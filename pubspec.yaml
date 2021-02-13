@@ -76,5 +76,10 @@ flutter:
       fonts:
         - asset: fonts/Rubik-ExtraBold.ttf
 
+    - family: ReggaeOne
+      fonts:
+        - asset: fonts/ReggaeOne-Regular.ttf
+
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

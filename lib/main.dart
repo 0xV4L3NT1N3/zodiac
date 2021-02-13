@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -85,6 +87,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<String> imgList = [
     '/splashart/angpau.jpg',
+    '/splashart/redbull.jpg',
+    '/splashart/whitebull.jpg',
   ];
 
   var _controller = TextEditingController();
@@ -92,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var _controller2 = TextEditingController();
 
   String temp = '';
-  String address = '123456789';
+  String address = 'Wallet Address';
   String message = '';
   String cointype = 'Bitcoin';
   String logo = '';
@@ -230,11 +234,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      Text('Much donate. Such thanks. Very halp.',
-                          style: Theme.of(context).textTheme.headline5),
-                      SizedBox(height: 20),
                       Image.asset('assets/donatedoge.png',
                           height: 200, width: 200),
+                      SizedBox(height: 20),
+                      Text(
+                        'Much donate. Such thanks. Very halp.',
+                        style: Theme.of(context).textTheme.headline5,
+                        textAlign: TextAlign.start,
+                      ),
                     ],
                   ),
                 ),
@@ -254,7 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        SizedBox(height: 60),
+                        SizedBox(height: 85),
                         Text('Send red ',
                             style: Theme.of(context).textTheme.headline1),
                         Text('The mod',
@@ -274,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 60),
+                            SizedBox(height: 85),
                             Text('packets',
                                 style: Theme.of(context).textTheme.headline2),
                             Text('ern way.',
@@ -358,13 +365,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                           child: Chip(
                                               backgroundColor:
                                                   HexColor('#fdfdfd'),
-                                              label: Text(
-                                                'Wallet Address',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 10.0,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              label: Container(
+                                                width: 160,
+                                                child: Text(
+                                                  address,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 10.0,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
                                               ))),
                                     ),
 
@@ -402,8 +415,22 @@ class _MyHomePageState extends State<MyHomePage> {
               alignment: Alignment.topLeft,
               child: Padding(
                   padding: const EdgeInsets.only(top: 25.0, left: 35.0),
-                  child: Text('Zodiac',
-                      style: Theme.of(context).textTheme.bodyText1)),
+                  child: Container(
+                    width: 110,
+                    child: Column(
+                      children: [
+                        Text('Zodiac',
+                            style: TextStyle(
+                                color: HexColor("#fdfdfd"),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30.0)),
+                        Divider(
+                          thickness: 3,
+                          color: HexColor('#fdfdfd'),
+                        )
+                      ],
+                    ),
+                  )),
             ),
 
             // About button
